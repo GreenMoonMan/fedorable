@@ -1,0 +1,81 @@
+---
+- name: Basic Fedora setup (RPM Fusion, codecs, AMD decode)
+  become: true
+  block:
+    - name: Ensure this runs on Fedora
+      ansible.builtin.assert:
+        that:
+          - ansible_facts['distribution'] == "Fedora"
+        fail_msg: "This task block is intended for Fedora hosts only."
+
+    - name: Update all packages to latest
+      ansible.builtin.dnf:
+        name: "*"
+        state: latest
+        update_cache: true
+
+    - name: Enable RPM Fusion repositories (free and nonfree)
+      ansible.builtin.dnf:
+        name:
+          - "https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-{{ ansible_facts['distribution_major_version'] }}.noarch.rpm"
+          - "https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-{{ ansible_facts['distribution_major_version'] }}.noarch.rpm"
+        state: present
+
+    # Equivalent to: dnf -y group update core
+    - name: Update @core group
+      ansible.builtin.command: dnf -y group update core
+      register: dnf_group_core
+      changed_when: "'Nothing to do' not in dnf_group_core.stdout"
+      failed_when: dnf_group_core.rc != 0
+
+    # Equivalent to:
+    # dnf install -y gstreamer1-plugins-{bad-*,good-*,base} gstreamer1-plugin-openh264 gstreamer1-libav --exclude=...
+    - name: Install GStreamer codecs and libav
+      ansible.builtin.dnf:
+        name:
+          - gstreamer1-plugins-base
+          - gstreamer1-plugins-good
+          - gstreamer1-plugins-bad-free
+          - gstreamer1-plugins-bad-free-extras
+          - gstreamer1-plugin-openh264
+          - gstreamer1-libav
+        state: present
+        exclude:
+          - gstreamer1-plugins-bad-free-devel
+
+    # Equivalent to: dnf install -y lame* --exclude=lame-devel
+    - name: Install LAME (MP3 support)
+      ansible.builtin.dnf:
+        name:
+          - lame
+          - lame-libs
+        state: present
+        exclude:
+          - lame-devel
+
+    # Equivalent to: dnf group upgrade -y --with-optional Multimedia
+    - name: Upgrade Multimedia group (with optional packages)
+      ansible.builtin.command: dnf -y group upgrade --with-optional Multimedia
+      register: dnf_group_multimedia
+      changed_when: "'Nothing to do' not in dnf_group_multimedia.stdout"
+      failed_when: dnf_group_multimedia.rc != 0
+
+    # Equivalent to:
+    # dnf -y swap mesa-va-drivers mesa-va-drivers-freeworld
+    # dnf -y swap mesa-vdpau-drivers mesa-vdpau-drivers-freeworld
+    - name: Enable AMD hardware decode (VA-API freeworld)
+      ansible.builtin.command: dnf -y swap mesa-va-drivers mesa-va-drivers-freeworld
+      register: dnf_swap_va
+      changed_when: "'Nothing to do' not in dnf_swap_va.stdout"
+      failed_when: dnf_swap_va.rc != 0
+
+    - name: Enable AMD hardware decode (VDPAU freeworld)
+      ansible.builtin.command: dnf -y swap mesa-vdpau-drivers mesa-vdpau-drivers-freeworld
+      register: dnf_swap_vdpau
+      changed_when: "'Nothing to do' not in dnf_swap_vdpau.stdout"
+      failed_when: dnf_swap_vdpau.rc != 0
+
+    - name: Install libva-utils
+      ansible.builtin.dnf:
+        name: libva-utils
+        state: present

@@ -1,0 +1,56 @@
+# .ansible-lint
+warn_list:
+  # Experimental/preview rules
+  - experimental
+  
+  # Formatting and style rules
+  - formatting
+  - yaml[line-length]
+  - yaml[comments]
+  - yaml[comments-indentation]
+  - yaml[trailing-spaces]
+  - yaml[empty-lines]
+  - jinja[spacing]
+  - jinja[invalid]
+  
+  # Naming conventions (best practices)
+  - name[missing]
+  - name[casing]
+  - name[template]
+  - name[play]
+  - var-naming[no-role-prefix]
+  - var-naming[non-ascii]
+  
+  # FQCN (Fully Qualified Collection Names) - best practice
+  - fqcn[action-core]
+  - fqcn[action]
+  - fqcn[canonical]
+  - fqcn[deep]
+  
+  # Best practices and recommendations
+  - no-changed-when
+  - no-handler
+  - no-relative-paths
+  - command-instead-of-module
+  - command-instead-of-shell
+  - package-latest
+  - risky-file-permissions
+  - risky-shell-pipe
+  - ignore-errors
+  - no-free-form
+  - args[module]
+  
+  # Complexity and maintainability
+  - complexity
+  
+  # Deprecated features (warnings rather than errors)
+  - deprecated-bare-vars
+  - deprecated-local-action
+  - deprecated-module
+
+# Rules that should remain as errors (syntax, critical issues)
+# Don't add these to warn_list or skip_list:
+# - syntax-check (YAML/Ansible syntax errors)
+# - load-failure (file loading failures)
+# - parser-error (parsing errors)
+# - internal-error (ansible-lint bugs)
