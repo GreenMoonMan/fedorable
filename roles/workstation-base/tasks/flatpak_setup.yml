@@ -1,0 +1,15 @@
+---
+- name: Configure Flathub as the default repo
+  become: true
+  block:
+    # Flatpak remote management (idempotent) requires community.general
+    - name: Ensure Flathub remote exists
+      community.general.flatpak_remote:
+        name: flathub
+        state: present
+        flatpakrepo_url: https://flathub.org/repo/flathub.flatpakrepo
+
+    - name: Remove Fedora Flatpak remote (if present)
+      community.general.flatpak_remote:
+        name: fedora
+        state: absent
