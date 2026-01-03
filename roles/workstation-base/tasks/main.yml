@@ -1,6 +1,8 @@
-#SPDX-License-Identifier: MIT-0
 ---
 # tasks file for workstation-base
-- name: System setup
-  import_tasks: system_setup.yml
+# system setup
+- import_tasks: system_setup.yml
 
+# setup applications
+- import_tasks: setup_docker.yml
+- import_tasks: vscodium.yml

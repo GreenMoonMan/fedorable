@@ -1,0 +1,44 @@
+---
+- name: Install Docker Engine on Fedora
+  become: true
+  block:
+    - name: Ensure required packages are installed
+      ansible.builtin.dnf:
+        name:
+          - dnf-plugins-core
+        state: present
+        update_cache: true
+
+    - name: Add Docker CE repository
+      ansible.builtin.get_url:
+        url: https://download.docker.com/linux/fedora/docker-ce.repo
+        dest: /etc/yum.repos.d/docker-ce.repo
+        mode: '0644'
+
+    - name: Install Docker Engine packages
+      ansible.builtin.dnf:
+        name:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+          - docker-buildx-plugin
+          - docker-compose-plugin
+        state: present
+
+    - name: Enable and start Docker service
+      ansible.builtin.systemd:
+        name: docker
+        enabled: true
+        state: started
+
+    - name: Ensure docker group exists
+      ansible.builtin.group:
+        name: docker
+        state: present
+
+    - name: Add user to docker group
+      ansible.builtin.user:
+        name: "{{ docker_user | default(ansible_user_id) }}"
+        groups: docker
+        append: true
+      when: docker_user is defined or ansible_user_id is defined
