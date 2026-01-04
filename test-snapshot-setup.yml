@@ -1,0 +1,11 @@
+---
+- name: test out snapshot setup to localhost
+  hosts: localhost
+  connection: local
+  gather_facts: true
+
+  tasks:
+    - name: run only snapshots_home.yml from workstation-base role
+      ansible.builtin.include_role:
+        name: workstation-base
+        tasks_from: snapshots_home.yml

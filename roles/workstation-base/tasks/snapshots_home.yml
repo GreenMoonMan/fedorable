@@ -1,67 +1,69 @@
 ---
 # tasks/snapper-home.yml
+- name: Setup btrfs snapshots
+  become: true
+  block:
+    - name: Install snapper and helpers
+      ansible.builtin.dnf:
+        name:
+          - snapper
+          - btrfs-assistant
+          - btrfs-progs
+        state: present
 
-- name: Install snapper and helpers
-  ansible.builtin.dnf:
-    name:
-      - snapper
-      - btrfs-assistant
-      - btrfs-progs
-    state: present
+    # verify system setup
+    - name: Verify {{ home_snapper_path }} is on btrfs
+      ansible.builtin.command: "findmnt -no FSTYPE {{ home_snapper_path }}"
+      register: home_fstype
+      changed_when: false
 
-# verify system setup
-- name: Verify {{ home_snapper_path }} is on btrfs
-  ansible.builtin.command: "findmnt -no FSTYPE {{ home_snapper_path }}"
-  register: home_fstype
-  changed_when: false
+    - name: Fail if {{ home_snapper_path }} is not btrfs
+      ansible.builtin.fail:
+        msg: "{{ home_snapper_path }} must be on btrfs (found: {{ home_fstype.stdout | default('unknown') }})."
+      when: home_fstype.stdout | trim != "btrfs"
 
-- name: Fail if {{ home_snapper_path }} is not btrfs
-  ansible.builtin.fail:
-    msg: "{{ home_snapper_path }} must be on btrfs (found: {{ home_fstype.stdout | default('unknown') }})."
-  when: home_fstype.stdout | trim != "btrfs"
+    # Ensure quotas are OFF (as requested)
+    - name: Check if btrfs qgroups/quotas are enabled on {{ home_snapper_path }}
+      ansible.builtin.command: "btrfs qgroup show {{ home_snapper_path }}"
+      register: qgroup_show
+      changed_when: false
+      failed_when: false
 
-# Ensure quotas are OFF (as requested)
-- name: Check if btrfs qgroups/quotas are enabled on {{ home_snapper_path }}
-  ansible.builtin.command: "btrfs qgroup show {{ home_snapper_path }}"
-  register: qgroup_show
-  changed_when: false
-  failed_when: false
+    - name: Disable btrfs quotas on {{ home_snapper_path }} when enabled
+      ansible.builtin.command: "btrfs quota disable {{ home_snapper_path }}"
+      when: qgroup_show.rc == 0
 
-- name: Disable btrfs quotas on {{ home_snapper_path }} when enabled
-  ansible.builtin.command: "btrfs quota disable {{ home_snapper_path }}"
-  when: qgroup_show.rc == 0
+    - name: "Create snapper config for {{ home_snapper_path }} (config {{ home_snapper_config }})"
+      ansible.builtin.command: "snapper -c {{ home_snapper_config }} create-config {{ home_snapper_path }}"
+      args:
+        creates: "/etc/snapper/configs/{{ home_snapper_config }}"
 
-- name: "Create snapper config for {{ home_snapper_path }} (config {{ home_snapper_config }})"
-  ansible.builtin.command: "snapper -c {{ home_snapper_config }} create-config {{ home_snapper_path }}"
-  args:
-    creates: "/etc/snapper/configs/{{ home_snapper_config }}"
+    - name: Configure snapper timeline and retention for {{ home_snapper_config }}
+      ansible.builtin.lineinfile:
+        path: "/etc/snapper/configs/{{ home_snapper_config }}"
+        regexp: '^{{ item.key }}='
+        line: '{{ item.key }}="{{ item.value }}"'
+      loop:
+        - key: "TIMELINE_CREATE"
+          value: "{{ 'yes' if home_timeline_create else 'no' }}"
+        - key: "TIMELINE_CLEANUP"
+          value: "{{ 'yes' if home_timeline_cleanup else 'no' }}"
+        - key: "TIMELINE_LIMIT_HOURLY"
+          value: "{{ home_timeline_limit_hourly }}"
+        - key: "TIMELINE_LIMIT_DAILY"
+          value: "{{ home_timeline_limit_daily }}"
+        - key: "TIMELINE_LIMIT_MONTHLY"
+          value: "{{ home_timeline_limit_monthly }}"
+        - key: "TIMELINE_LIMIT_WEEKLY"
+          value: "{{ home_timeline_limit_weekly }}"
+        - key: "TIMELINE_LIMIT_YEARLY"
+          value: "{{ home_timeline_limit_yearly }}"
 
-- name: Configure snapper timeline and retention for {{ home_snapper_config }}
-  ansible.builtin.lineinfile:
-    path: "/etc/snapper/configs/{{ home_snapper_config }}"
-    regexp: '^{{ item.key }}='
-    line: '{{ item.key }}="{{ item.value }}"'
-  loop:
-    - key: "TIMELINE_CREATE"
-      value: "{{ 'yes' if home_timeline_create else 'no' }}"
-    - key: "TIMELINE_CLEANUP"
-      value: "{{ 'yes' if home_timeline_cleanup else 'no' }}"
-    - key: "TIMELINE_LIMIT_HOURLY"
-      value: "{{ home_timeline_limit_hourly }}"
-    - key: "TIMELINE_LIMIT_DAILY"
-      value: "{{ home_timeline_limit_daily }}"
-    - key: "TIMELINE_LIMIT_MONTHLY"
-      value: "{{ home_timeline_limit_monthly }}"
-    - key: "TIMELINE_LIMIT_WEEKLY"
-      value: "{{ home_timeline_limit_weekly }}"
-    - key: "TIMELINE_LIMIT_YEARLY"
-      value: "{{ home_timeline_limit_yearly }}"
-
-- name: Enable snapper timeline and cleanup timers
-  ansible.builtin.systemd:
-    name: "{{ item }}"
-    enabled: true
-    state: started
-  loop:
-    - snapper-timeline.timer
-    - snapper-cleanup.timer
+    - name: Enable snapper timeline and cleanup timers
+      ansible.builtin.systemd:
+        name: "{{ item }}"
+        enabled: true
+        state: started
+      loop:
+        - snapper-timeline.timer
+        - snapper-cleanup.timer
