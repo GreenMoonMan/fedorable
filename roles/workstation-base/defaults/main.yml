@@ -1,5 +1,9 @@
 ---
 
+################################################################################
+# home snapshot parameters
+################################################################################
+
 # Snapper config name and subvolume path for /home snapshots
 home_snapper_config: "home"
 home_snapper_path: "/home"
@@ -11,8 +15,25 @@ home_timeline_cleanup: true
 # Retention policy for /home timeline snapshots
 home_timeline_limit_hourly: 10
 home_timeline_limit_daily: 10
-home_timeline_limit_monthly: 5
-
-# Explicitly disable other buckets unless you choose otherwise
 home_timeline_limit_weekly: 0
+home_timeline_limit_monthly: 5
 home_timeline_limit_yearly: 0
+
+################################################################################
+# root snapshot parameters
+################################################################################
+
+# Snapper config name and subvolume path for root snapshots
+root_snapper_config: "root"
+root_snapper_path: "/"
+
+# Snapper timeline settings for the /root snapper config
+root_timeline_create: true
+root_timeline_cleanup: true
+
+# Retention policy for /root timeline snapshots
+root_timeline_limit_hourly: 0
+root_timeline_limit_daily: 3
+root_timeline_limit_weekly: 2
+root_timeline_limit_monthly: 3
+root_timeline_limit_yearly: 0
