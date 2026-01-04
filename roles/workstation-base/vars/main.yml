@@ -53,7 +53,7 @@ applications_packages_all: >-
   }}
 
 # Flatpak configuration
-applications_flatpak_method: "user"  # user|system
+applications_flatpak_method: "system"  # user|system
 applications_flatpak_remote_name: "flathub"
 applications_flatpak_remote_url: "https://flathub.org/repo/flathub.flatpakrepo"
 
