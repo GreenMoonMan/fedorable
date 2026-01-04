@@ -31,12 +31,11 @@
           - "https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-{{ ansible_facts['distribution_major_version'] }}.noarch.rpm"
         state: present
 
-    # Equivalent to: dnf -y group update core
-    - name: Update @core group
-      ansible.builtin.command: dnf -y group update core
-      register: dnf_group_core
-      changed_when: "'Nothing to do' not in dnf_group_core.stdout"
-      failed_when: dnf_group_core.rc != 0
+    # update the core group after installing rpm fusion
+    - name: Upgrade @core group
+      ansible.builtin.dnf:
+        name: "@core"
+        state: latest
 
     # Equivalent to:
     # dnf install -y gstreamer1-plugins-{bad-*,good-*,base} gstreamer1-plugin-openh264 gstreamer1-libav --exclude=...
@@ -63,12 +62,11 @@
         exclude:
           - lame-devel
 
-    # Equivalent to: dnf group upgrade -y --with-optional Multimedia
+    # upgrade multimedia group
     - name: Upgrade Multimedia group (with optional packages)
-      ansible.builtin.command: dnf -y group upgrade --with-optional Multimedia
-      register: dnf_group_multimedia
-      changed_when: "'Nothing to do' not in dnf_group_multimedia.stdout"
-      failed_when: dnf_group_multimedia.rc != 0
+      ansible.builtin.dnf:
+        name: "@Multimedia"
+        state: latest
 
     # Equivalent to:
     # dnf -y swap mesa-va-drivers mesa-va-drivers-freeworld
