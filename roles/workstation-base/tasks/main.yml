@@ -12,7 +12,7 @@
 
 # setup snapshots
 - name: setup snapshots
-  ansible.builtin.include_tasks: snapshots_home.yml
+  ansible.builtin.include_tasks: snapshots.yml
   loop:
     - snapper_config: "{{ home_snapper_config }}"
       snapper_path: "{{ home_snapper_path }}"
