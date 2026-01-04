@@ -65,3 +65,15 @@ applications_packages_all: >-
     + applications_packages.rpmfusion
   }}
 
+# Flatpak configuration
+applications_flatpak_method: "user"  # user|system
+applications_flatpak_remote_name: "flathub"
+applications_flatpak_remote_url: "https://flathub.org/repo/flathub.flatpakrepo"
+
+applications_flatpak_apps:
+  - com.github.tchx84.Flatseal
+  - com.usebottles.bottles
+  - io.github.spacingbat3.webcord
+  - org.audacityteam.Audacity
+  - org.darktable.Darktable
+  - org.signal.Signal

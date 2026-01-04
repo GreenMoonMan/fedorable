@@ -8,3 +8,4 @@
 - import_tasks: setup_docker.yml
 - import_tasks: vscodium.yml
 - import_tasks: system_packages.yml
+- import_tasks: flatpak_applications.yml

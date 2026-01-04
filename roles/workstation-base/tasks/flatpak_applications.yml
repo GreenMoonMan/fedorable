@@ -1,0 +1,25 @@
+---
+# Installs Flatpak apps from Flathub.
+# Defaults to per-user installs (matches typical usage when scripts are run without sudo).
+- name: Ensure Flathub remote is present
+  become: true
+  when: applications_flatpak_method == "system"
+  community.general.flatpak_remote:
+    name: "{{ applications_flatpak_remote_name }}"
+    state: present
+    flatpakrepo_url: "{{ applications_flatpak_remote_url }}"
+    method: system
+
+- name: Ensure Flathub remote is present (user)
+  when: applications_flatpak_method == "user"
+  community.general.flatpak_remote:
+    name: "{{ applications_flatpak_remote_name }}"
+    state: present
+    flatpakrepo_url: "{{ applications_flatpak_remote_url }}"
+    method: user
+
+- name: Install Flatpak applications
+  community.general.flatpak:
+    name: "{{ applications_flatpak_apps }}"
+    state: present
+    method: "{{ applications_flatpak_method }}"
