@@ -11,7 +11,7 @@
 - import_tasks: flatpak_applications.yml
 
 # setup snapshots
-- name: setup snapshots
+- name: Setup snapshots
   ansible.builtin.include_tasks: snapshots.yml
   loop:
     - snapper_config: "{{ home_snapper_config }}"
@@ -22,6 +22,7 @@
       timeline_limit_daily: "{{ home_timeline_limit_daily }}"
       timeline_limit_weekly: "{{ home_timeline_limit_weekly }}"
       timeline_limit_monthly: "{{ home_timeline_limit_monthly }}"
+      timeline_limit_yearly: "{{ home_timeline_limit_yearly }}"
 
     - snapper_config: "{{ root_snapper_config }}"
       snapper_path: "{{ root_snapper_path }}"
@@ -31,3 +32,17 @@
       timeline_limit_daily: "{{ root_timeline_limit_daily }}"
       timeline_limit_weekly: "{{ root_timeline_limit_weekly }}"
       timeline_limit_monthly: "{{ root_timeline_limit_monthly }}"
+      timeline_limit_yearly: "{{ home_timeline_limit_yearly }}"
+  # wacky magic to get the variables to be recognized by the snapshots.yml tasks
+  loop_control:
+    loop_var: snap
+  vars:
+    snapper_config: "{{ snap.snapper_config }}"
+    snapper_path: "{{ snap.snapper_path }}"
+    timeline_create: "{{ snap.timeline_create }}"
+    timeline_cleanup: "{{ snap.timeline_cleanup }}"
+    timeline_limit_hourly: "{{ snap.timeline_limit_hourly }}"
+    timeline_limit_daily: "{{ snap.timeline_limit_daily }}"
+    timeline_limit_weekly: "{{ snap.timeline_limit_weekly }}"
+    timeline_limit_monthly: "{{ snap.timeline_limit_monthly }}"
+    timeline_limit_yearly: "{{ snap.timeline_limit_yearly }}"
