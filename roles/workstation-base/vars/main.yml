@@ -2,28 +2,26 @@
 applications_packages:
   system_utils:
     - vim
-    - gcc-c++          # replaces "g++"
+    - gcc-c++
     - clang
     - clang-tools-extra
     - cmake
     - cargo
     - python3-pip
-    - ffmpeg-free      # Fedora build
+    - ffmpeg
     - ImageMagick
     - lz4
     - rsync
     - mediainfo
-    - neofetch
-    - SFML-devel
-    - yt-dlp
+    - fastfetch
     - lm_sensors
     - qemu
+    - v4l2loopback
+    - tailscale
 
   applications:
     - dconf-editor
-    - corectrl
     - baobab
-    - gparted
     - gsmartcontrol
     - timeshift
     - vlc
@@ -41,19 +39,10 @@ applications_packages:
     - gnome-shell-extension-no-overview
 
   misc:
-    - texlive
     - piper
-    - blender
-    - kdenlive
     - epiphany
-    - chromium
     - gimp
-    - easyeffects
     - inkscape
-    - virt-manager
-
-  rpmfusion:
-    - v4l2loopback
 
 # Single flattened list used by the dnf task above
 applications_packages_all: >-
@@ -62,7 +51,6 @@ applications_packages_all: >-
     + applications_packages.applications
     + applications_packages.gnome_shell_extensions
     + applications_packages.misc
-    + applications_packages.rpmfusion
   }}
 
 # Flatpak configuration
@@ -77,3 +65,4 @@ applications_flatpak_apps:
   - org.audacityteam.Audacity
   - org.darktable.Darktable
   - org.signal.Signal
+  - com.github.wwmm.easyeffects
