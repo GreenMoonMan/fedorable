@@ -1,0 +1,13 @@
+---
+- name: Ensure this role is running on Fedora
+  ansible.builtin.assert:
+    that:
+      - ansible_facts.distribution == "Fedora"
+    fail_msg: "This role is intended for Fedora hosts only."
+
+- name: Install applications and tooling via dnf
+  become: true
+  ansible.builtin.dnf:
+    name: "{{ applications_packages_all }}"
+    state: present
+    update_cache: true

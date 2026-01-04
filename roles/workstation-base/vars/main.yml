@@ -1,3 +1,67 @@
-#SPDX-License-Identifier: MIT-0
 ---
-# vars file for workstation-base
+applications_packages:
+  system_utils:
+    - vim
+    - gcc-c++          # replaces "g++"
+    - clang
+    - clang-tools-extra
+    - cmake
+    - cargo
+    - python3-pip
+    - ffmpeg-free      # Fedora build
+    - ImageMagick
+    - lz4
+    - rsync
+    - mediainfo
+    - neofetch
+    - SFML-devel
+    - yt-dlp
+    - lm_sensors
+    - qemu
+
+  applications:
+    - dconf-editor
+    - corectrl
+    - baobab
+    - gparted
+    - gsmartcontrol
+    - timeshift
+    - vlc
+    - okular
+    - rhythmbox
+
+  gnome_shell_extensions:
+    - gnome-tweaks
+    - gnome-extensions-app
+    - papirus-icon-theme
+    - gnome-shell-extension-user-theme
+    - gnome-shell-extension-appindicator
+    - gnome-shell-extension-dash-to-dock
+    - gnome-shell-extension-gsconnect
+    - gnome-shell-extension-no-overview
+
+  misc:
+    - texlive
+    - piper
+    - blender
+    - kdenlive
+    - epiphany
+    - chromium
+    - gimp
+    - easyeffects
+    - inkscape
+    - virt-manager
+
+  rpmfusion:
+    - v4l2loopback
+
+# Single flattened list used by the dnf task above
+applications_packages_all: >-
+  {{
+    applications_packages.system_utils
+    + applications_packages.applications
+    + applications_packages.gnome_shell_extensions
+    + applications_packages.misc
+    + applications_packages.rpmfusion
+  }}
+
