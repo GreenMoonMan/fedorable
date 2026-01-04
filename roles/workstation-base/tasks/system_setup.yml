@@ -13,6 +13,16 @@
         name: "*"
         state: latest
         update_cache: true
+    
+    - name: Import RPM Fusion Free GPG key
+      ansible.builtin.rpm_key:
+        state: present
+        key: "https://rpmfusion.org/keys?action=AttachFile&do=get&target=RPM-GPG-KEY-rpmfusion-free-fedora-2020"
+
+    - name: Import RPM Fusion Nonfree GPG key
+      ansible.builtin.rpm_key:
+        state: present
+        key: "https://rpmfusion.org/keys?action=AttachFile&do=get&target=RPM-GPG-KEY-rpmfusion-nonfree-fedora-2020"
 
     - name: Enable RPM Fusion repositories (free and nonfree)
       ansible.builtin.dnf:
