@@ -11,4 +11,23 @@
 - import_tasks: flatpak_applications.yml
 
 # setup snapshots
-- import_tasks: snapshots_home.yml
+- name: setup snapshots
+  ansible.builtin.include_tasks: snapshots_home.yml
+  loop:
+    - snapper_config: "{{ home_snapper_config }}"
+      snapper_path: "{{ home_snapper_path }}"
+      timeline_create: "{{ home_timeline_create }}"
+      timeline_cleanup: "{{ home_timeline_cleanup }}"
+      timeline_limit_hourly: "{{ home_timeline_limit_hourly }}"
+      timeline_limit_daily: "{{ home_timeline_limit_daily }}"
+      timeline_limit_weekly: "{{ home_timeline_limit_weekly }}"
+      timeline_limit_monthly: "{{ home_timeline_limit_monthly }}"
+
+    - snapper_config: "{{ root_snapper_config }}"
+      snapper_path: "{{ root_snapper_path }}"
+      timeline_create: "{{ root_timeline_create }}"
+      timeline_cleanup: "{{ root_timeline_cleanup }}"
+      timeline_limit_hourly: "{{ root_timeline_limit_hourly }}"
+      timeline_limit_daily: "{{ root_timeline_limit_daily }}"
+      timeline_limit_weekly: "{{ root_timeline_limit_weekly }}"
+      timeline_limit_monthly: "{{ root_timeline_limit_monthly }}"
