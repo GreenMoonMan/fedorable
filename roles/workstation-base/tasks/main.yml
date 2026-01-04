@@ -9,3 +9,6 @@
 - import_tasks: vscodium.yml
 - import_tasks: system_packages.yml
 - import_tasks: flatpak_applications.yml
+
+# setup snapshots
+- import_tasks: snapshots_home.yml

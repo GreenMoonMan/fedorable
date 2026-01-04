@@ -1,3 +1,18 @@
-#SPDX-License-Identifier: MIT-0
 ---
-# defaults file for workstation-base
+
+# Snapper config name and subvolume path for /home snapshots
+home_snapper_config: "home"
+home_snapper_path: "/home"
+
+# Snapper timeline settings for the /home snapper config
+home_timeline_create: true
+home_timeline_cleanup: true
+
+# Retention policy for /home timeline snapshots
+home_timeline_limit_hourly: 10
+home_timeline_limit_daily: 10
+home_timeline_limit_monthly: 5
+
+# Explicitly disable other buckets unless you choose otherwise
+home_timeline_limit_weekly: 0
+home_timeline_limit_yearly: 0
