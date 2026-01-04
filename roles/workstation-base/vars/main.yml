@@ -39,7 +39,6 @@ applications_packages:
     - gnome-shell-extension-no-overview
 
   misc:
-    - piper
     - epiphany
     - gimp
     - inkscape
