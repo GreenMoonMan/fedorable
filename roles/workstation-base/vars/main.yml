@@ -53,8 +53,8 @@ applications_flatpak_remote_url: "https://flathub.org/repo/flathub.flatpakrepo"
 applications_flatpak_apps:
   - com.github.tchx84.Flatseal
   - com.usebottles.bottles
-  - io.github.spacingbat3.webcord
-  - org.audacityteam.Audacity
-  - org.darktable.Darktable
-  - org.signal.Signal
   - com.github.wwmm.easyeffects
+  - io.podman_desktop.PodmanDesktop
+  - com.borgbase.Vorta
+  - io.github.nokse22.Exhibit
+  - it.mijorus.gearlever
