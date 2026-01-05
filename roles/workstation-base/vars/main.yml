@@ -7,7 +7,6 @@ applications_packages:
     - clang-tools-extra
     - cmake
     - cargo
-    - python3-pip
     - ffmpeg
     - ImageMagick
     - lz4
@@ -17,39 +16,33 @@ applications_packages:
     - lm_sensors
     - qemu
     - v4l2loopback
-    - tailscale
+    - neovim
+    - htop
+    - gdb
+    - distrobox
+    - pdftk-java
+    - powertop
+    - python3-pip
+    - python3-virtualenv
+    - nmap
+    - screen
 
   applications:
     - dconf-editor
     - baobab
     - gsmartcontrol
-    - timeshift
     - vlc
     - okular
     - rhythmbox
-
-  gnome_shell_extensions:
-    - gnome-tweaks
-    - gnome-extensions-app
-    - papirus-icon-theme
-    - gnome-shell-extension-user-theme
-    - gnome-shell-extension-appindicator
-    - gnome-shell-extension-dash-to-dock
-    - gnome-shell-extension-gsconnect
-    - gnome-shell-extension-no-overview
-
-  misc:
-    - epiphany
-    - gimp
-    - inkscape
+    - gparted
+    - libreoffice
+    - gnome-boxes
 
 # Single flattened list used by the dnf task above
 applications_packages_all: >-
   {{
     applications_packages.system_utils
     + applications_packages.applications
-    + applications_packages.gnome_shell_extensions
-    + applications_packages.misc
   }}
 
 # Flatpak configuration
