@@ -12,9 +12,9 @@ gnome_dconf_settings:
 
   # disable automatic downloading of updates + related notifications
   - key: "/org/gnome/software/download-updates"
-    value: false
+    value: "false"
   - key: "/org/gnome/software/download-updates-notify"
-    value: false
+    value: "false"
 
   # ---------------------------------------------------------------------------
   # Gnome shell ui customizations
@@ -26,16 +26,16 @@ gnome_dconf_settings:
 
   # top bar time customization
   - key: "/org/gnome/desktop/interface/clock-show-date"
-    value: true
+    value: "true"
   - key: "/org/gnome/desktop/interface/clock-show-seconds"
-    value: true
+    value: "true"
   - key: "/org/gnome/desktop/interface/clock-show-weekday"
-    value: true
+    value: "true"
 
   # System
   # Disable automatic time zone
   - key: "/org/gnome/desktop/datetime/automatic-timezone"
-    value: false
+    value: "false"
   # Time format: 24-hour
   - key: "/org/gnome/desktop/interface/clock-format"
     value: "'24h'"
@@ -43,39 +43,39 @@ gnome_dconf_settings:
   # Multitasking
   # disable hot corner
   - key: "/org/gnome/desktop/interface/enable-hot-corners"
-    value: false
+    value: "false"
   # Workspaces on all displays (GNOME uses the mutter key; false = span all displays)
   - key: "/org/gnome/mutter/workspaces-only-on-primary"
-    value: false
+    value: "false"
   # Include apps/windows from the current workspace only (Alt+Tab / switchers)
   - key: "/org/gnome/shell/window-switcher/current-workspace-only"
-    value: true
+    value: "true"
   - key: "/org/gnome/shell/app-switcher/current-workspace-only"
-    value: true
+    value: "true"
 
   # Privacy and Security: Screen Lock
   # Blank screen after 5 minutes (value is in seconds)
   - key: "/org/gnome/desktop/session/idle-delay"
-    value: 300
+    value: "uint32 300"
   # Auto lock screen + delay after blank (seconds)
   - key: "/org/gnome/desktop/screensaver/lock-enabled"
-    value: true
+    value: "true"
   - key: "/org/gnome/desktop/screensaver/lock-delay"
-    value: 30
+    value: "uint32 30"
 
   # do not autostart programs on media insertion
   - key: "/org/gnome/desktop/media-handling/autorun-never"
-    value: true
+    value: "true"
 
   # Privacy and Security: File History & cleanup
   # Disable file history (Recent files)
   - key: "/org/gnome/desktop/privacy/remember-recent-files"
-    value: false
+    value: "false"
   # Auto-delete temporary files after 30 days
   - key: "/org/gnome/desktop/privacy/remove-old-temp-files"
-    value: true
+    value: "true"
   - key: "/org/gnome/desktop/privacy/old-files-age"
-    value: 30
+    value: "uint32 30"
 
   # ---------------------------------------------------------------------------
   # Appearance
@@ -114,33 +114,17 @@ gnome_dconf_settings:
 
   # Sounds: mute system sounds (event/alert sounds)
   - key: "/org/gnome/desktop/sound/event-sounds"
-    value: false
+    value: "false"
 
   # ---------------------------------------------------------------------------
   # Gnome search
   # GNOME Shell search providers: enabled + order
   - key: "/org/gnome/desktop/search-providers/enabled"
-    value:
-      - "org.gnome.Calculator.desktop"
-      - "org.gnome.Nautilus.desktop"      # Files
-      - "org.gnome.Calendar.desktop"
-      - "org.gnome.Characters.desktop"
-      - "org.gnome.clocks.desktop"
-      - "org.gnome.Settings.desktop"
-      - "org.gnome.Software.desktop"
-      - "org.gnome.Ptyxis.desktop"        # Terminal (Fedora Workstation default in recent releases)
+    value: "['org.gnome.Calculator.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Calendar.desktop', 'org.gnome.Characters.desktop', 'org.gnome.clocks.desktop', 'org.gnome.Settings.desktop', 'org.gnome.Software.desktop', 'org.gnome.Ptyxis.desktop']"
   - key: "/org/gnome/desktop/search-providers/sort-order"
-    value:
-      - "org.gnome.Calculator.desktop"
-      - "org.gnome.Nautilus.desktop"
-      - "org.gnome.Calendar.desktop"
-      - "org.gnome.Characters.desktop"
-      - "org.gnome.clocks.desktop"
-      - "org.gnome.Settings.desktop"
-      - "org.gnome.Software.desktop"
-      - "org.gnome.Ptyxis.desktop"
+    value: "['org.gnome.Calculator.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Calendar.desktop', 'org.gnome.Characters.desktop', 'org.gnome.clocks.desktop', 'org.gnome.Settings.desktop', 'org.gnome.Software.desktop', 'org.gnome.Ptyxis.desktop']"
   - key: "/org/gnome/desktop/search-providers/disabled"
-    value: []
+    value: "@as []"
 
   # ---------------------------------------------------------------------------
   # Keyboard shortcuts
@@ -148,43 +132,29 @@ gnome_dconf_settings:
   # --- Custom shortcut: Open Ptyxis (terminal) (Ctrl+Alt+T) ---
   # Custom shortcuts live under the media-keys plugin as a relocatable schema.
   - key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings"
-    value:
-      - "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/"
+    value: "['/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/']"
   - key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/name"
-    value: "Open Terminal"
+    value: "'Open Terminal'"
   - key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/command"
-    value: "ptyxis --new-window"
+    value: "'ptyxis --new-window'"
   - key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/binding"
-    value: "<Control><Alt>t"
-  # --- Hide window (minimize): Super+` ---
-  # GNOME represents the key above Tab as "Above_Tab" (which is ` on US layouts).
+    value: "'<Control><Alt>t'"
   - key: "/org/gnome/desktop/wm/keybindings/minimize"
-    value:
-      - "<Super>Above_Tab"
-  # --- Hide all normal windows (show desktop): Super+D ---
+    value: "['<Super>Above_Tab']"
   - key: "/org/gnome/desktop/wm/keybindings/show-desktop"
-    value:
-      - "<Super>d"
-  # --- Switch windows: Alt+Tab (and Shift+Alt+Tab) ---
+    value: "['<Super>d']"
   - key: "/org/gnome/desktop/wm/keybindings/switch-windows"
-    value:
-      - "<Alt>Tab"
+    value: "['<Alt>Tab']"
   - key: "/org/gnome/desktop/wm/keybindings/switch-windows-backward"
-    value:
-      - "<Shift><Alt>Tab"
-  # --- Switch applications: Super+Tab (and Shift+Super+Tab) ---
+    value: "['<Shift><Alt>Tab']"
   - key: "/org/gnome/desktop/wm/keybindings/switch-applications"
-    value:
-      - "<Super>Tab"
+    value: "['<Super>Tab']"
   - key: "/org/gnome/desktop/wm/keybindings/switch-applications-backward"
-    value:
-      - "<Shift><Super>Tab"
-  # Optional but recommended: avoid conflicts with Super+` by disabling "switch windows of an application"
-  # (which is "switch-group" and commonly binds to the key above Tab).
+    value: "['<Shift><Super>Tab']"
   - key: "/org/gnome/desktop/wm/keybindings/switch-group"
-    value: []
+    value: "@as []"
   - key: "/org/gnome/desktop/wm/keybindings/switch-group-backward"
-    value: []
+    value: "@as []"
 
   # ---------------------------------------------------------------------------
   # GNOME Text Editor settings (org.gnome.TextEditor)
@@ -193,26 +163,26 @@ gnome_dconf_settings:
     value: "'vim'"
   # Custom Font: Monospace 11 (requires use-system-font=false)
   - key: "/org/gnome/TextEditor/use-system-font"
-    value: false
+    value: "false"
   - key: "/org/gnome/TextEditor/custom-font"
     value: "'Monospace 11'"
   # Display line numbers: true
   - key: "/org/gnome/TextEditor/show-line-numbers"
-    value: true
+    value: "true"
   # Highlight current line: true
   - key: "/org/gnome/TextEditor/highlight-current-line"
-    value: true
+    value: "true"
   # Restore session: false
   - key: "/org/gnome/TextEditor/restore-session"
-    value: false
+    value: "false"
   
   # ---------------------------------------------------------------------------
   # Ptyxis terminal (org.gnome.Ptyxis)
   - key: "/org/gnome/Ptyxis/restore-session"
-    value: false
+    value: "false"
   - key: "/org/gnome/Ptyxis/restore-window-size"
-    value: false
+    value: "false"
   - key: "/org/gnome/Ptyxis/audible-bell"
-    value: false
+    value: "false"
 
 
