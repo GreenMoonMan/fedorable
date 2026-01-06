@@ -1,0 +1,39 @@
+---
+# Applies GNOME (dconf) settings for a given desktop user.
+- name: Ensure dconf tooling dependencies are present (Fedora)
+  ansible.builtin.package:
+    name:
+      - dconf
+      - dbus-daemon
+      - dbus-tools
+      - python3-psutil
+      - python3-gobject
+    state: present
+  become: true
+
+# If gnome_user / gnome_user_home are not provided, fall back to the current Ansible user.
+- name: Determine effective GNOME target user
+  ansible.builtin.set_fact:
+    gnome_user_effective: "{{ gnome_user | default(ansible_user_id) }}"
+
+- name: Determine effective GNOME target user home
+  ansible.builtin.set_fact:
+    gnome_user_home_effective: >-
+      {{
+        gnome_user_home
+        | default(
+            (gnome_user_effective == ansible_user_id)
+            | ternary(ansible_user_dir, '/home/' ~ gnome_user_effective)
+          )
+      }}
+
+- name: Apply GNOME dconf settings for {{ gnome_user_effective }}
+  community.general.dconf:
+    key: "{{ item.key }}"
+    value: "{{ item.value | default(omit) }}"
+    state: present
+  loop: "{{ gnome_dconf_settings }}"
+  become: true
+  become_user: "{{ gnome_user_effective }}"
+  environment:
+    HOME: "{{ gnome_user_home_effective }}"
