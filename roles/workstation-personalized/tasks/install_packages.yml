@@ -19,7 +19,6 @@
       - gnome-tweaks
       - gnome-extensions-app
       - papirus-icon-theme
-      - dmz-cursor-themes
       # gnome shell extensions
       - gnome-shell-extension-user-theme
       - gnome-shell-extension-appindicator
@@ -28,6 +27,26 @@
       - gnome-shell-extension-no-overview
       - gnome-shell-extension-launch-new-instance
       - gnome-shell-extension-blur-my-shell
+
+
+- name: Install dmz cursor theme
+  become: true
+  block:
+    - name: Install dnf-plugins-core for COPR support
+      ansible.builtin.dnf:
+        name: dnf-plugins-core
+        state: present
+
+    - name: Enable COPR repository for dmz-cursor-themes
+      community.general.copr:
+        host: copr.fedorainfracloud.org
+        state: enabled
+        name: madoka241/dmz-cursor-themes
+
+    - name: Install dmz-cursor-themes package
+      ansible.builtin.dnf:
+        name: dmz-cursor-themes
+        state: present
 
 
 - name: Install flatpak apps
