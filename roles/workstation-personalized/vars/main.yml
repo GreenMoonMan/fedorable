@@ -82,13 +82,13 @@ gnome_dconf_settings:
 
   # system monospace font
   - key: "/org/gnome/desktop/interface/monospace-font-name"
-    value: "Monospace Regular 11"
+    value: "'Monospace Regular 11'"
   # cursor theme
   - key: "/org/gnome/desktop/interface/cursor-theme"
-    value: "DMZ-White"
+    value: "'DMZ-White'"
   # icon theme
   - key: "/org/gnome/desktop/interface/icon-theme"
-    value: "Papirus"
+    value: "'Papirus'"
 
 
   # ---------------------------------------------------------------------------
