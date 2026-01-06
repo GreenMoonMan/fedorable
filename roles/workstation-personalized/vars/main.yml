@@ -16,10 +16,8 @@ gnome_dconf_settings:
   - key: "/org/gnome/software/download-updates-notify"
     value: false
 
-  # swap capslock and escape
-  - key: "/org/gnome/desktop/input-sources/xkb-options"
-    value: "['caps:swapescape']"
-
+  # ---------------------------------------------------------------------------
+  # Gnome shell ui customizations
   # titlebar click actions
   - key: "/org/gnome/desktop/wm/preferences/action-double-click-titlebar"
     value: "'toggle-maximize'"
@@ -41,6 +39,12 @@ gnome_dconf_settings:
   # do not autostart programs on media insertion
   - key: "/org/gnome/desktop/media-handling/autorun-never"
     value: true
+
+  # ---------------------------------------------------------------------------
+  # Personalized settings
+  # swap capslock and escape
+  - key: "/org/gnome/desktop/input-sources/xkb-options"
+    value: "['caps:swapescape']"
 
   # ---------------------------------------------------------------------------
   # Volume key behavior (org.gnome.settings-daemon.plugins.media-keys)
