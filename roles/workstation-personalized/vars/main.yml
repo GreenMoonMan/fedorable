@@ -143,6 +143,50 @@ gnome_dconf_settings:
     value: []
 
   # ---------------------------------------------------------------------------
+  # Keyboard shortcuts
+
+  # --- Custom shortcut: Open Ptyxis (terminal) (Ctrl+Alt+T) ---
+  # Custom shortcuts live under the media-keys plugin as a relocatable schema.
+  - key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings"
+    value:
+      - "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/"
+  - key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/name"
+    value: "Open Terminal"
+  - key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/command"
+    value: "ptyxis --new-window"
+  - key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/binding"
+    value: "<Control><Alt>t"
+  # --- Hide window (minimize): Super+` ---
+  # GNOME represents the key above Tab as "Above_Tab" (which is ` on US layouts).
+  - key: "/org/gnome/desktop/wm/keybindings/minimize"
+    value:
+      - "<Super>Above_Tab"
+  # --- Hide all normal windows (show desktop): Super+D ---
+  - key: "/org/gnome/desktop/wm/keybindings/show-desktop"
+    value:
+      - "<Super>d"
+  # --- Switch windows: Alt+Tab (and Shift+Alt+Tab) ---
+  - key: "/org/gnome/desktop/wm/keybindings/switch-windows"
+    value:
+      - "<Alt>Tab"
+  - key: "/org/gnome/desktop/wm/keybindings/switch-windows-backward"
+    value:
+      - "<Shift><Alt>Tab"
+  # --- Switch applications: Super+Tab (and Shift+Super+Tab) ---
+  - key: "/org/gnome/desktop/wm/keybindings/switch-applications"
+    value:
+      - "<Super>Tab"
+  - key: "/org/gnome/desktop/wm/keybindings/switch-applications-backward"
+    value:
+      - "<Shift><Super>Tab"
+  # Optional but recommended: avoid conflicts with Super+` by disabling "switch windows of an application"
+  # (which is "switch-group" and commonly binds to the key above Tab).
+  - key: "/org/gnome/desktop/wm/keybindings/switch-group"
+    value: []
+  - key: "/org/gnome/desktop/wm/keybindings/switch-group-backward"
+    value: []
+
+  # ---------------------------------------------------------------------------
   # GNOME Text Editor settings (org.gnome.TextEditor)
   # Vim bindings
   - key: "/org/gnome/TextEditor/keybindings"
@@ -170,4 +214,5 @@ gnome_dconf_settings:
     value: false
   - key: "/org/gnome/Ptyxis/audible-bell"
     value: false
+
 
