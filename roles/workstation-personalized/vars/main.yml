@@ -32,13 +32,50 @@ gnome_dconf_settings:
   - key: "/org/gnome/desktop/interface/clock-show-weekday"
     value: true
 
+  # System
+  # Disable automatic time zone
+  - key: "/org/gnome/desktop/datetime/automatic-timezone"
+    value: false
+  # Time format: 24-hour
+  - key: "/org/gnome/desktop/interface/clock-format"
+    value: "'24h'"
+
+  # Multitasking
   # disable hot corner
   - key: "/org/gnome/desktop/interface/enable-hot-corners"
     value: false
+  # Workspaces on all displays (GNOME uses the mutter key; false = span all displays)
+  - key: "/org/gnome/mutter/workspaces-only-on-primary"
+    value: false
+  # Include apps/windows from the current workspace only (Alt+Tab / switchers)
+  - key: "/org/gnome/shell/window-switcher/current-workspace-only"
+    value: true
+  - key: "/org/gnome/shell/app-switcher/current-workspace-only"
+    value: true
+
+  # Privacy and Security: Screen Lock
+  # Blank screen after 5 minutes (value is in seconds)
+  - key: "/org/gnome/desktop/session/idle-delay"
+    value: 300
+  # Auto lock screen + delay after blank (seconds)
+  - key: "/org/gnome/desktop/screensaver/lock-enabled"
+    value: true
+  - key: "/org/gnome/desktop/screensaver/lock-delay"
+    value: 30
 
   # do not autostart programs on media insertion
   - key: "/org/gnome/desktop/media-handling/autorun-never"
     value: true
+
+  # Privacy and Security: File History & cleanup
+  # Disable file history (Recent files)
+  - key: "/org/gnome/desktop/privacy/remember-recent-files"
+    value: false
+  # Auto-delete temporary files after 30 days
+  - key: "/org/gnome/desktop/privacy/remove-old-temp-files"
+    value: true
+  - key: "/org/gnome/desktop/privacy/old-files-age"
+    value: 30
 
   # ---------------------------------------------------------------------------
   # Personalized settings
@@ -47,8 +84,9 @@ gnome_dconf_settings:
     value: "['caps:swapescape']"
 
   # ---------------------------------------------------------------------------
+  # Sound settings
+
   # Volume key behavior (org.gnome.settings-daemon.plugins.media-keys)
-  #
   # Make unmodified volume keys use "precise" bindings, and move regular step
   # to Shift (and Ctrl+Shift), matching the intent of your script.
   - key: "/org/gnome/settings-daemon/plugins/media-keys/volume-down"
@@ -59,6 +97,10 @@ gnome_dconf_settings:
     value: "['XF86AudioLowerVolume', '<Ctrl>XF86AudioLowerVolume']"
   - key: "/org/gnome/settings-daemon/plugins/media-keys/volume-up-precise"
     value: "['XF86AudioRaiseVolume', '<Ctrl>XF86AudioRaiseVolume']"
+
+  # Sounds: mute system sounds (event/alert sounds)
+  - key: "/org/gnome/desktop/sound/event-sounds"
+    value: false
 
   # ---------------------------------------------------------------------------
   # GNOME Text Editor settings (org.gnome.TextEditor)
