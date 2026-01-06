@@ -42,10 +42,6 @@ gnome_dconf_settings:
   - key: "/org/gnome/desktop/media-handling/autorun-never"
     value: true
 
-  # From application_tweaks.sh (GNOME Text Editor)
-  - key: "/org/gnome/TextEditor/keybindings"
-    value: "'vim'"
-
   # From volume_keys.sh
   # Your uploaded file has truncated key names (e.g., "v...ift").
   # These are the canonical GNOME keys commonly used for the intent shown:
@@ -58,3 +54,22 @@ gnome_dconf_settings:
     value: "['XF86AudioRaiseVolume', '<Shift>XF86AudioRaiseVolume', '<Ctrl><Shift>XF86AudioRaiseVolume']"
   - key: "/org/gnome/settings-daemon/plugins/media-keys/volume-up-static"
     value: "['XF86AudioRaiseVolume', '<Ctrl>XF86AudioRaiseVolume']"
+
+  # GNOME Text Editor settings (org.gnome.TextEditor)
+  # Vim bindings
+  - key: "/org/gnome/TextEditor/keybindings"
+    value: "'vim'"
+  # Custom Font: Monospace 11 (requires use-system-font=false)
+  - key: "/org/gnome/TextEditor/use-system-font"
+    value: false
+  - key: "/org/gnome/TextEditor/custom-font"
+    value: "'Monospace 11'"
+  # Display line numbers: true
+  - key: "/org/gnome/TextEditor/show-line-numbers"
+    value: true
+  # Highlight current line: true
+  - key: "/org/gnome/TextEditor/highlight-current-line"
+    value: true
+  # Restore session: false
+  - key: "/org/gnome/TextEditor/restore-session"
+    value: false
