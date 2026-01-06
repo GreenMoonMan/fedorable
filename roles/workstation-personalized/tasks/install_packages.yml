@@ -15,10 +15,12 @@
       - inkscape
       - xournalpp
       - remmina
-      # gnome shell extensions
+      # gnome customizations
       - gnome-tweaks
       - gnome-extensions-app
       - papirus-icon-theme
+      - dmz-cursor-themes
+      # gnome shell extensions
       - gnome-shell-extension-user-theme
       - gnome-shell-extension-appindicator
       - gnome-shell-extension-dash-to-dock

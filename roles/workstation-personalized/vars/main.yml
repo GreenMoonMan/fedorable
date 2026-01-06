@@ -3,7 +3,14 @@
 # vars file for workstation-personalized
 
 gnome_dconf_settings:
-  # disable auto updates
+  # GNOME Software updates behavior
+  # NOTE: This is the more aggressive switch: it hides the Updates UI and stops GNOME Software
+  # from doing update-related actions. Remove this key if you still want to use GNOME Software
+  # for updates, but keep the download-updates keys below to prevent background downloads.
+  # - key: "/org/gnome/software/allow-updates"
+  #  value: false
+
+  # disable automatic downloading of updates + related notifications
   - key: "/org/gnome/software/download-updates"
     value: false
   - key: "/org/gnome/software/download-updates-notify"
@@ -13,7 +20,7 @@ gnome_dconf_settings:
   - key: "/org/gnome/desktop/input-sources/xkb-options"
     value: "['caps:swapescape']"
 
-  # application bar customization
+  # titlebar click actions
   - key: "/org/gnome/desktop/wm/preferences/action-double-click-titlebar"
     value: "'toggle-maximize'"
   - key: "/org/gnome/desktop/wm/preferences/action-middle-click-titlebar"
@@ -27,9 +34,11 @@ gnome_dconf_settings:
   - key: "/org/gnome/desktop/interface/clock-show-weekday"
     value: true
 
+  # disable hot corner
   - key: "/org/gnome/desktop/interface/enable-hot-corners"
     value: false
 
+  # do not autostart programs on media insertion
   - key: "/org/gnome/desktop/media-handling/autorun-never"
     value: true
 
