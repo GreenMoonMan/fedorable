@@ -1,0 +1,47 @@
+---
+- name: Install dnf packages
+  become: true
+  ansible.builtin.dnf:
+    state: present
+    update_cache: true
+    name:
+      # tailscale stuff
+      - tailscale
+      - trayscale
+      # misc dev applications
+      - rpi-imager
+      # desktop applications
+      - gimp
+      - inkscape
+      - xournalpp
+      - remmina
+      # gnome shell extensions
+      - gnome-tweaks
+      - gnome-extensions-app
+      - papirus-icon-theme
+      - gnome-shell-extension-user-theme
+      - gnome-shell-extension-appindicator
+      - gnome-shell-extension-dash-to-dock
+      - gnome-shell-extension-gsconnect
+      - gnome-shell-extension-no-overview
+      - gnome-shell-extension-launch-new-instance
+      - gnome-shell-extension-blur-my-shell
+
+
+- name: Install flatpak apps
+  become: true
+  community.general.flatpak:
+    state: present
+    method: system
+    name:
+      - io.github.spacingbat3.webcord
+      - org.audacityteam.Audacity
+      - org.darktable.Darktable
+      - org.signal.Signal
+      - com.bitwarden.desktop
+      - sh.loft.devpod
+      - com.moonlight_stream.Moonlight
+      - com.transmissionbt.Transmission
+      - io.freetubeapp.FreeTube
+      - org.chromium.Chromium
+      - org.freecad.FreeCAD
