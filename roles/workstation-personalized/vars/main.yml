@@ -103,6 +103,32 @@ gnome_dconf_settings:
     value: false
 
   # ---------------------------------------------------------------------------
+  # Gnome search
+  # GNOME Shell search providers: enabled + order
+  - key: "/org/gnome/desktop/search-providers/enabled"
+    value:
+      - "org.gnome.Calculator.desktop"
+      - "org.gnome.Nautilus.desktop"      # Files
+      - "org.gnome.Calendar.desktop"
+      - "org.gnome.Characters.desktop"
+      - "org.gnome.clocks.desktop"
+      - "org.gnome.Settings.desktop"
+      - "org.gnome.Software.desktop"
+      - "org.gnome.Ptyxis.desktop"        # Terminal (Fedora Workstation default in recent releases)
+  - key: "/org/gnome/desktop/search-providers/sort-order"
+    value:
+      - "org.gnome.Calculator.desktop"
+      - "org.gnome.Nautilus.desktop"
+      - "org.gnome.Calendar.desktop"
+      - "org.gnome.Characters.desktop"
+      - "org.gnome.clocks.desktop"
+      - "org.gnome.Settings.desktop"
+      - "org.gnome.Software.desktop"
+      - "org.gnome.Ptyxis.desktop"
+  - key: "/org/gnome/desktop/search-providers/disabled"
+    value: []
+
+  # ---------------------------------------------------------------------------
   # GNOME Text Editor settings (org.gnome.TextEditor)
   # Vim bindings
   - key: "/org/gnome/TextEditor/keybindings"
