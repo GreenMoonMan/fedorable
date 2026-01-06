@@ -3,3 +3,5 @@
 # tasks file for workstation-personalized
 # application setup
 - import_tasks: install_packages.yml
+# gnome customization
+- import_tasks: gnome-customizations.yml
