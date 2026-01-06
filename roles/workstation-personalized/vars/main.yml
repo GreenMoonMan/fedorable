@@ -24,6 +24,10 @@ gnome_dconf_settings:
   - key: "/org/gnome/desktop/wm/preferences/action-middle-click-titlebar"
     value: "'minimize'"
 
+  # Titlebar buttons: show Minimize and Maximize
+  - key: "/org/gnome/desktop/wm/preferences/button-layout"
+    value: "':minimize,maximize,close'"
+
   # top bar time customization
   - key: "/org/gnome/desktop/interface/clock-show-date"
     value: "true"
