@@ -1,47 +1,61 @@
 ---
-# Installs GNOME Shell extensions externally via gnome-extensions-cli ("gext") and enables them.
+# Installs GNOME Shell extensions externally and enables them via dconf.
+#
+# Requirements:
+#   ansible-galaxy collection install community.general
+#
+# Why this approach:
+# - `gnome-extensions list/enable` requires a live GNOME Shell session bus and often fails during provisioning.
+# - `gext --filesystem install` installs without talking to GNOME Shell. :contentReference[oaicite:1]{index=1}
+# - Enabling can be done by setting /org/gnome/shell/enabled-extensions. :contentReference[oaicite:2]{index=2}
 
-- name: Install prerequisites for managing GNOME extensions
+- name: Install prerequisites for extension install + dconf management
   become: true
   ansible.builtin.dnf:
     name:
       - gnome-shell
       - unzip
-      - dbus-daemon
-      - dbus-tools
       - python3-pip
       - pipx
+      # community.general.dconf dependencies / helpers :contentReference[oaicite:3]{index=3}
+      - dconf
+      - dbus-daemon
+      - dbus-tools
+      - python3-psutil
+      - python3-gobject
     state: present
 
-# Use the Ansible collection module instead of shelling out to pipx directly.
-# (It also honors PIPX_HOME / PIPX_BIN_DIR via the `environment:` keyword.)
+- name: Compute target user/home (per-user install)
+  ansible.builtin.set_fact:
+    extensions_target_user: "{{ extensions_dconf_target_user | default(ansible_user_id) }}"
+    extensions_target_home: "{{ extensions_dconf_target_user_home | default('/home/' ~ (extensions_dconf_target_user | default(ansible_user_id))) }}"
+
 - name: Ensure gnome-extensions-cli (gext) is installed via pipx for target user
   become: true
-  become_user: "{{ extensions_dconf_target_user | default(ansible_user_id) }}"
+  become_user: "{{ extensions_target_user }}"
   community.general.pipx:
     name: gnome-extensions-cli
     state: present
   environment:
-    PIPX_HOME: "{{ (extensions_dconf_target_user_home | default('/home/' ~ (extensions_dconf_target_user | default(ansible_user_id)))) ~ '/.local/pipx' }}"
-    PIPX_BIN_DIR: "{{ (extensions_dconf_target_user_home | default('/home/' ~ (extensions_dconf_target_user | default(ansible_user_id)))) ~ '/.local/bin' }}"
-
-- name: Read currently enabled GNOME extensions (UUIDs)
-  become: true
-  become_user: "{{ extensions_dconf_target_user | default(ansible_user_id) }}"
-  ansible.builtin.command:
-    cmd: "dbus-run-session -- gnome-extensions list --enabled"
-  register: extensions_enabled_uuids
-  changed_when: false
+    PIPX_HOME: "{{ extensions_target_home }}/.local/pipx"
+    PIPX_BIN_DIR: "{{ extensions_target_home }}/.local/bin"
 
 - name: Install GNOME Shell extensions via gext (filesystem backend)
   become: true
-  become_user: "{{ extensions_dconf_target_user | default(ansible_user_id) }}"
+  become_user: "{{ extensions_target_user }}"
   ansible.builtin.command:
-    cmd: "{{ (extensions_dconf_target_user_home | default('/home/' ~ (extensions_dconf_target_user | default(ansible_user_id)))) ~ '/.local/bin/gext' }} --filesystem install {{ item.pk }}"
+    cmd: "{{ extensions_target_home }}/.local/bin/gext --filesystem install {{ item.pk }}"
   args:
-    creates: >-
-      {{ (extensions_dconf_target_user_home | default('/home/' ~ (extensions_dconf_target_user | default(ansible_user_id))))
-         ~ '/.local/share/gnome-shell/extensions/' ~ item.uuid ~ '/metadata.json' }}
+    creates: "{{ extensions_target_home }}/.local/share/gnome-shell/extensions/{{ item.uuid }}/metadata.json"
   loop: "{{ extensions_gnome_shell_extensions }}"
   loop_control:
     label: "{{ item.name }} (pk={{ item.pk }}, uuid={{ item.uuid }})"
+
+- name: Enable configured GNOME Shell extensions via dconf (no GNOME session required)
+  become: true
+  become_user: "{{ extensions_target_user }}"
+  community.general.dconf:
+    key: "/org/gnome/shell/enabled-extensions"
+    # Must be a JSON-like array string for the module; to_json produces '["uuid1","uuid2"]'
+    value: "{{ (extensions_gnome_shell_extensions | map(attribute='uuid') | list) | to_json }}"
+    state: present
