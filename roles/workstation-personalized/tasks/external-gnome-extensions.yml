@@ -50,12 +50,3 @@
   loop: "{{ extensions_gnome_shell_extensions }}"
   loop_control:
     label: "{{ item.name }} (pk={{ item.pk }}, uuid={{ item.uuid }})"
-
-- name: Enable configured GNOME Shell extensions via dconf (no GNOME session required)
-  become: true
-  become_user: "{{ extensions_target_user }}"
-  community.general.dconf:
-    key: "/org/gnome/shell/enabled-extensions"
-    # Must be a JSON-like array string for the module; to_json produces '["uuid1","uuid2"]'
-    value: "{{ (extensions_gnome_shell_extensions | map(attribute='uuid') | list) | to_json }}"
-    state: present
