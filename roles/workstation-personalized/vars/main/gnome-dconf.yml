@@ -1,15 +1,4 @@
-#SPDX-License-Identifier: MIT-0
 ---
-# vars file for workstation-personalized
-
-# gnome shell extension settings
-extensions_dconf_files:
-  - { src: "dash-to-dock.dconf", root: "/org/gnome/shell/extensions/dash-to-dock/" }
-  - { src: "ding.dconf", root: "/org/gnome/shell/extensions/ding/" }
-  - { src: "tiling-assistant.dconf", root: "/org/gnome/shell/extensions/tiling-assistant/" }
-  - { src: "blur-my-shell.dconf", root: "/org/gnome/shell/extensions/blur-my-shell/" }
-
-
 # gobal gnome dconf settings
 gnome_dconf_settings:
   # GNOME Software updates behavior
@@ -197,5 +186,4 @@ gnome_dconf_settings:
     value: "false"
   - key: "/org/gnome/Ptyxis/audible-bell"
     value: "false"
-
 
