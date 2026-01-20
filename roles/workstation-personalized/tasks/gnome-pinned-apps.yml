@@ -28,7 +28,7 @@
   community.general.dconf:
     key: "/org/gnome/shell/favorite-apps"
     value: >-
-      ['firefox.desktop',
+      ['org.mozilla.firefox.desktop',
        'org.gnome.Settings.desktop',
        'org.gnome.Nautilus.desktop',
        '{{ gnome_terminal_desktop_id }}']
