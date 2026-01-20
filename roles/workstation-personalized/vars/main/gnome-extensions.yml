@@ -5,6 +5,7 @@ extensions_dconf_files:
   - { src: "ding.dconf", root: "/org/gnome/shell/extensions/ding/" }
   - { src: "tiling-assistant.dconf", root: "/org/gnome/shell/extensions/tiling-assistant/" }
   - { src: "blur-my-shell.dconf", root: "/org/gnome/shell/extensions/blur-my-shell/" }
+  - { src: "lockkeys.dconf", root: "/org/gnome/shell/extensions/lockkeys/" }
 
 
 # External extensions from extensions.gnome.org (pk + uuid)
