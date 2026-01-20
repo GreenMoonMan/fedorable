@@ -31,8 +31,10 @@
   become: true
 
 - name: Load dconf settings from files
-  ansible.builtin.command: >-
+  ansible.builtin.shell: >-
     dconf load {{ item.root | default('/') }} < {{ extensions_dconf_load_tmp_dir }}/{{ item.src }}
+  args:
+    executable: /bin/bash
   loop: "{{ extensions_dconf_files }}"
   become: true
   become_user: "{{ extensions_dconf_target_user }}"
