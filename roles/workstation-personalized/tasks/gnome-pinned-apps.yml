@@ -1,0 +1,39 @@
+---
+# Pins GNOME favorites (dash/taskbar) to ONLY:
+#   firefox, settings, files, terminal
+#
+# Requires:
+#   ansible-galaxy collection install community.general
+
+- name: Determine GNOME target user
+  ansible.builtin.set_fact:
+    gnome_user_effective: "{{ gnome_user | default(ansible_user_id) }}"
+
+- name: Get UID for GNOME target user
+  ansible.builtin.command: "id -u {{ gnome_user_effective }}"
+  register: gnome_user_uid
+  changed_when: false
+
+- name: Check if Ptyxis desktop file exists (modern GNOME terminal)
+  ansible.builtin.stat:
+    path: /usr/share/applications/org.gnome.Ptyxis.desktop
+  register: ptyxis_desktop
+
+- name: Choose terminal desktop id (Ptyxis if available, else GNOME Terminal)
+  ansible.builtin.set_fact:
+    gnome_terminal_desktop_id: >-
+      {{ 'org.gnome.Ptyxis.desktop' if ptyxis_desktop.stat.exists else 'org.gnome.Terminal.desktop' }}
+
+- name: Set GNOME pinned applications (favorites) to Firefox, Settings, Files, Terminal only
+  community.general.dconf:
+    key: "/org/gnome/shell/favorite-apps"
+    value: >-
+      ['firefox.desktop',
+       'org.gnome.Settings.desktop',
+       'org.gnome.Nautilus.desktop',
+       '{{ gnome_terminal_desktop_id }}']
+    state: present
+  become: true
+  become_user: "{{ gnome_user_effective }}"
+  environment:
+    XDG_RUNTIME_DIR: "/run/user/{{ gnome_user_uid.stdout | trim }}"
