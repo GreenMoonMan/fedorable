@@ -5,3 +5,22 @@ extensions_dconf_files:
   - { src: "ding.dconf", root: "/org/gnome/shell/extensions/ding/" }
   - { src: "tiling-assistant.dconf", root: "/org/gnome/shell/extensions/tiling-assistant/" }
   - { src: "blur-my-shell.dconf", root: "/org/gnome/shell/extensions/blur-my-shell/" }
+
+
+# External extensions from extensions.gnome.org (pk + uuid)
+extensions_gnome_shell_extensions:
+  - name: Clipboard Indicator
+    pk: 779
+    uuid: "clipboard-indicator@tudmotu.com"
+  - name: Desktop Icons NG (DING)
+    pk: 2087
+    uuid: "ding@rastersoft.com"
+  - name: Impatience
+    pk: 277
+    uuid: "impatience@gnome-shell-extensions.gfxmonk.net"
+  - name: Lock Keys
+    pk: 36
+    uuid: "lockkeys@vaina.lt"
+  - name: Tiling Assistant
+    pk: 3733
+    uuid: "tiling-assistant@leleat-on-github"

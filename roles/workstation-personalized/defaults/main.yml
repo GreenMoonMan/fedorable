@@ -1,3 +1,7 @@
 #SPDX-License-Identifier: MIT-0
 ---
 # defaults file for workstation-personalized
+# for external extensions
+# Target user for per-user installs/enables
+extensions_dconf_target_user: "{{ ansible_user_id }}"
+extensions_dconf_target_user_home: "/home/{{ extensions_dconf_target_user }}"
