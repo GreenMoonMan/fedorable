@@ -8,6 +8,8 @@
 - import_tasks: configure-gnome-extensions.yml
 - import_tasks: external-gnome-extensions.yml
 - import_tasks: gnome-pinned-apps.yml
+# create empty template file
+- import_tasks: template-files.yml
 
 # shell customization
 - import_tasks: copy-bashrc.yml

@@ -1,0 +1,5 @@
+- name: Create blank "Empty Document" template
+  ansible.builtin.file:
+    path: "{{ ansible_user_dir }}/Templates/Empty Document"
+    state: touch
+    mode: '0644'
