@@ -1,0 +1,12 @@
+# ~/.profile
+
+# If running bash, and ~/.bashrc exists, source it (login shells)
+if [ -n "$BASH_VERSION" ]; then
+  if [ -f "$HOME/.bashrc" ]; then
+    . "$HOME/.bashrc"
+  fi
+fi
+
+# User-local executables
+[ -d "$HOME/.local/bin" ] && PATH="$HOME/.local/bin:$PATH"
+export PATH
