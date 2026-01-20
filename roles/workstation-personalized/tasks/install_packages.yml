@@ -24,7 +24,6 @@
       - gnome-shell-extension-appindicator
       - gnome-shell-extension-dash-to-dock
       - gnome-shell-extension-caffeine
-      - gnome-shell-extension-gsconnect
       - gnome-shell-extension-no-overview
       - gnome-shell-extension-launch-new-instance
       - gnome-shell-extension-blur-my-shell
@@ -36,6 +35,8 @@
     update_cache: true
     name:
       - gnome-shell-extension-background-logo
+      - gnome-shell-extension-apps-menu
+      - gnome-shell-extension-places-menu
 
 - name: Install dmz cursor theme
   become: true
