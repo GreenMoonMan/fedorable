@@ -1,0 +1,11 @@
+---
+# tasks/bashrc.yml
+- name: Copy .bashrc to target user's home directory
+  ansible.builtin.copy:
+    src: bashrc
+    dest: "{{ ansible_env.HOME }}/.bashrc"
+    owner: "{{ ansible_user_id }}"
+    group: "{{ ansible_user_gid | default(ansible_user_id) }}"
+    mode: "0644"
+    backup: true
+  when: ansible_env.HOME is defined
