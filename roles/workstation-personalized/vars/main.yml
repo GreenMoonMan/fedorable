@@ -6,7 +6,7 @@
 extensions_dconf_files:
   - { src: "dash-to-dock.dconf", root: "/org/gnome/shell/extensions/dash-to-dock/" }
   - { src: "ding.dconf", root: "/org/gnome/shell/extensions/ding/" }
-  - { src: tiling-assistant.dconf",   root: "/org/gnome/shell/extensions/tiling-assistant/" }
+  - { src: "tiling-assistant.dconf", root: "/org/gnome/shell/extensions/tiling-assistant/" }
 
 
 # gobal gnome dconf settings
