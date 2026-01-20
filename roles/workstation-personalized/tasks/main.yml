@@ -5,3 +5,4 @@
 - import_tasks: install_packages.yml
 # gnome customization
 - import_tasks: gnome-customizations.yml
+- import_tasks: configure-gnome-extensions.yml

@@ -1,0 +1,41 @@
+---
+# tasks/load_dconf_files.yml
+#
+# Not so optional vars
+#   extensions_dconf_files
+#
+# Optional vars:
+#   extensions_dconf_load_tmp_dir: "/tmp/dconf-load"
+#   extensions_dconf_target_user: (defaults to ansible_user_id)
+#   extensions_dconf_target_home: (defaults to ansible_env.HOME)
+
+- name: Set dconf target defaults
+  ansible.builtin.set_fact:
+    extensions_dconf_target_user: "{{ extensions_dconf_target_user | default(ansible_user_id) }}"
+    extensions_dconf_target_home: "{{ extensions_dconf_target_home | default(ansible_env.HOME) }}"
+    extensions_dconf_load_tmp_dir: "{{ extensions_dconf_load_tmp_dir | default('/tmp/dconf-load') }}"
+
+- name: Ensure temp directory exists for dconf loads
+  ansible.builtin.file:
+    path: "{{ extensions_dconf_load_tmp_dir }}"
+    state: directory
+    mode: "0755"
+  become: true
+
+- name: Copy dconf files from role to remote
+  ansible.builtin.copy:
+    src: "{{ item.src }}"
+    dest: "{{ extensions_dconf_load_tmp_dir }}/{{ item.src }}"
+    mode: "0644"
+  loop: "{{ extensions_dconf_files }}"
+  become: true
+
+- name: Load dconf settings from files
+  ansible.builtin.command: >-
+    dconf load {{ item.root | default('/') }} < {{ extensions_dconf_load_tmp_dir }}/{{ item.src }}
+  loop: "{{ extensions_dconf_files }}"
+  become: true
+  become_user: "{{ extensions_dconf_target_user }}"
+  environment:
+    HOME: "{{ extensions_dconf_target_home }}"
+  changed_when: true

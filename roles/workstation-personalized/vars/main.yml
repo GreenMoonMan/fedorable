@@ -2,6 +2,14 @@
 ---
 # vars file for workstation-personalized
 
+# gnome shell extension settings
+extensions_dconf_files:
+  - { src: "dash-to-dock.dconf", root: "/org/gnome/shell/extensions/dash-to-dock/" }
+  - { src: "ding.dconf", root: "/org/gnome/shell/extensions/ding/" }
+  - { src: tiling-assistant.dconf",   root: "/org/gnome/shell/extensions/tiling-assistant/" }
+
+
+# gobal gnome dconf settings
 gnome_dconf_settings:
   # GNOME Software updates behavior
   # NOTE: This is the more aggressive switch: it hides the Updates UI and stops GNOME Software

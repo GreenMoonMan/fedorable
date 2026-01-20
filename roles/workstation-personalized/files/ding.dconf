@@ -1,0 +1,6 @@
+[/]
+check-x11wayland=true
+show-home=false
+show-trash=false
+show-volumes=false
+start-corner='bottom-right'
