@@ -117,6 +117,13 @@ if ! shopt -oq posix; then
   fi
 fi
 
+# User specific environment
+if ! [[ "$PATH" =~ "$HOME/.local/bin:$HOME/bin:" ]]
+then
+    PATH="$HOME/.local/bin:$HOME/bin:$PATH"
+fi
+export PATH
+
 # --- Readline keybind: PgDn jumps to the newest (bottom) history line ---
 # This returns you to a clean, current input line after you've moved around history.
 bind '"\e[6~": end-of-history'   # Page Down (most terminals)

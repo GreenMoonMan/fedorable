@@ -9,14 +9,3 @@
     mode: "0644"
     backup: true
   when: ansible_env.HOME is defined
-
-
-- name: Copy .profile to target user's home directory
-  ansible.builtin.copy:
-    src: profile
-    dest: "{{ ansible_env.HOME }}/.profile"
-    owner: "{{ ansible_user_id }}"
-    group: "{{ ansible_user_gid | default(ansible_user_id) }}"
-    mode: "0644"
-    backup: true
-  when: ansible_env.HOME is defined
