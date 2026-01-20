@@ -28,16 +28,6 @@
       - gnome-shell-extension-launch-new-instance
       - gnome-shell-extension-blur-my-shell
 
-- name: Remove unneeded packages
-  become: true
-  ansible.builtin.dnf:
-    state: absent
-    update_cache: true
-    name:
-      - gnome-shell-extension-apps-menu
-      - gnome-shell-extension-places-menu
-      - gnome-shell-extension-window-list
-
 - name: Install dmz cursor theme
   become: true
   block:
