@@ -34,9 +34,9 @@
     state: absent
     update_cache: true
     name:
-      - gnome-shell-extension-background-logo
       - gnome-shell-extension-apps-menu
       - gnome-shell-extension-places-menu
+      - gnome-shell-extension-window-list
 
 - name: Install dmz cursor theme
   become: true
