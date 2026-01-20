@@ -65,3 +65,10 @@
       - io.freetubeapp.FreeTube
       - org.chromium.Chromium
       - org.freecad.FreeCAD
+
+- name: Install yt-dlp via pip (user-local)
+  ansible.builtin.pip:
+    name: yt-dlp
+    executable: pip3
+    extra_args: --user
+    state: present
