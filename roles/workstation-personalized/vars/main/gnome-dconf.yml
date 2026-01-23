@@ -25,6 +25,10 @@ gnome_dconf_settings:
   # Titlebar buttons: show Minimize and Maximize
   - key: "/org/gnome/desktop/wm/preferences/button-layout"
     value: "':minimize,maximize,close'"
+  # Window resize with secondary click (requires the “Window Action Key”, i.e., mouse-button-modifier)
+  - key: "/org/gnome/desktop/wm/preferences/resize-with-right-button"
+    value: "true"
+
 
   # top bar time customization
   - key: "/org/gnome/desktop/interface/clock-show-date"
